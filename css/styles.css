@@ -1,0 +1,31 @@
+:root {
+    --main-color: #4e9af1;
+    --highlight: #ffe066;
+    --bg: #f4f4f4;
+    --text: #222;
+    --border-radius: 6px;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 2rem;
+  }
+  
+  a {
+    color: var(--main-color);
+    text-decoration: none;
+  }
+  
+  ul {
+    list-style: none;
+    padding-left: 1rem;
+  }
+  

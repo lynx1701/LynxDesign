@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GSAP Intro</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+  <h1 class="gsap-title">Welcome to GSAP</h1>
+
+  <button id="animateBtn">Animate Me</button>
+
+  <script>
+    const btn = document.getElementById('animateBtn');
+    btn.addEventListener('click', () => {
+      gsap.to(".gsap-title", {
+        duration: 1,
+        scale: 1.5,
+        color: "#4e9af1",
+        y: 50,
+        ease: "power2.out"
+      });
+    });
+  </script>
+</body>
+</html>

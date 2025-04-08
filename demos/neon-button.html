@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neon Button</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <button class="neon-btn">Click Me</button>
+
+  <style>
+    .neon-btn {
+      padding: 1rem 2rem;
+      background: #111;
+      border: 2px solid var(--main-color);
+      color: var(--main-color);
+      font-weight: bold;
+      border-radius: var(--border-radius);
+      text-shadow: 0 0 5px var(--main-color);
+      box-shadow: 0 0 10px var(--main-color);
+      transition: 0.3s ease-in-out;
+      cursor: pointer;
+    }
+
+    .neon-btn:hover {
+      background: var(--main-color);
+      color: #fff;
+      box-shadow: 0 0 20px var(--main-color), 0 0 40px var(--main-color);
+    }
+  </style>
+</body>
+</html>

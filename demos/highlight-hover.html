@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Highlight on Hover</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <div id="box1" class="hover-box">Hover over me!</div>
+  <div id="box2" class="hover-box">I light up too!</div>
+
+  <style>
+    .hover-box {
+      border: 2px solid #ccc;
+      padding: 1rem;
+      margin: 1rem 0;
+      transition: background-color 0.3s ease;
+    }
+
+    #box1:hover,
+    #box1:hover ~ #box2 {
+      background-color: var(--highlight);
+    }
+  </style>
+</body>
+</html>
