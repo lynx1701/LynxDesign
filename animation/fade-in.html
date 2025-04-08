@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fade In with GSAP</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+</head>
+<body>
+  <div class="fade-box fade-down">Fade Down</div>
+  <div class="fade-box fade-left">Fade In from Left</div>
+  <div class="fade-box fade-right">Fade In from Right</div>
+
+  <script>
+    gsap.from(".fade-down", {
+      duration: 1.5,
+      opacity: 0,
+      y: 50,
+      ease: "power2.out"
+    });
+
+    gsap.from(".fade-left", {
+      duration: 1.5,
+      opacity: 0,
+      x: -100,
+      ease: "power2.out",
+      delay: 0.3
+    });
+
+    gsap.from(".fade-right", {
+      duration: 1.5,
+      opacity: 0,
+      x: 100,
+      ease: "power2.out",
+      delay: 0.6
+    });
+  </script>
+</body>
+</html>
