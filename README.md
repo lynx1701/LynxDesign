@@ -1,6 +1,6 @@
 # HTML/CSS Showcase ✨
 
-A collection of creative, interactive, and animated features using only HTML and CSS.
+A collection of creative, interactive, and animated features using HTML,CSS, JS and GSAP.
 
 ## 🧪 Demo Pages
 
