@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GSAP 3D Rotate</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <style>
+    body {
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      perspective: 1000px;
+    }
+
+    .cube {
+      width: 150px;
+      height: 150px;
+      background: linear-gradient(135deg, #4e9af1, #75e0ff);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bold;
+      font-size: 1.25rem;
+      border-radius: 12px;
+      transform-style: preserve-3d;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+    }
+
+    button {
+      position: absolute;
+      bottom: 40px;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background: var(--main-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cube" id="cube">Rotate Me</div>
+  <button id="rotateBtn">3D Rotate</button>
+
+  <script>
+    let angle = 0;
+    const cube = document.getElementById("cube");
+
+    document.getElementById("rotateBtn").addEventListener("click", () => {
+      angle += 360;
+      gsap.to(cube, {
+        duration: 2,
+        rotationX: angle,
+        rotationY: angle,
+        ease: "power2.inOut"
+      });
+    });
+  </script>
+</body>
+</html>
