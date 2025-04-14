@@ -1,0 +1,39 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Hover Highlight</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="box1" class="hover-box">Hover over me</div>
+  <div id="box2" class="hover-box">I respond too!</div>
+
+  <style>
+    .hover-box {
+      padding: 2rem;
+      margin: 1rem;
+      background-color: #222;
+      color: white;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      transition: background-color 0.3s ease;
+    }
+  </style>
+
+  <script>
+    const box1 = document.getElementById('box1');
+    const box2 = document.getElementById('box2');
+
+    box1.addEventListener('mouseenter', () => {
+      box1.style.backgroundColor = 'yellow';
+      box2.style.backgroundColor = 'yellow';
+    });
+
+    box1.addEventListener('mouseleave', () => {
+      box1.style.backgroundColor = '';
+      box2.style.backgroundColor = '';
+    });
+  </script>
+</body>
+</html>

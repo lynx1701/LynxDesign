@@ -28,4 +28,36 @@
     list-style: none;
     padding-left: 1rem;
   }
-  
+
+
+
+  /** End of template styles ..*/
+
+  .hotspot-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+
+  .hotspot {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #004c93;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0;
+  }
+
+  .tooltip-box {
+    position: absolute;
+    max-width: 250px;
+    background: #fff;
+    color: #000;
+    padding: 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 100;
+    font-size: 0.9rem;
+  }

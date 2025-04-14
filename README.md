@@ -2,6 +2,8 @@
 
 A collection of creative, interactive, and animated features using HTML, CSS, JS, and GSAP.
 
+When implementing all of these, please make sure to wrap around DOMContentLoaded.
+
 ## 🧪 Demo Pages
 
 - [Highlight Hover](./demos/highlight-hover.html)
