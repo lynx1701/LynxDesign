@@ -4,37 +4,103 @@
         <link href="../../Resources/Stylesheets/HomePage.css" rel="stylesheet" type="text/css" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-              const hotspots = document.querySelectorAll(".hotspot");
-              const tooltip = document.getElementById("tooltip");
+    	<script>
+			
+			function runHotspotAnimation() {
+			const hotspots = document.querySelectorAll(".hotspot");
+
+			
+			gsap.killTweensOf(hotspots);
+			
+			gsap.to(hotspots, {
+			opacity: 1,
+			duration: 3,
+			stagger: 0.3,
+			ease: "power2.out"
+			});
+
+			gsap.timeline()
+			.from("#sigma-2-img", {
+			y: 160,
+			scale: 0,
+			ease: "back.out(1.2)",
+			duration: 4
+			})
+			.from(hotspots, {
+			duration: 1,
+			scale: 0,
+			ease: "back.out(1.7)",
+			stagger: 0.3
+			}, "-=0.5");
+			}
+
+
+			
+			
+			
+			document.addEventListener("DOMContentLoaded", function() {
+						
+				var hotspots = document.querySelectorAll(".hotspot");
+				var tooltip = document.getElementById("tooltip");
+				var activeHotspot = null;
+				var isCabinOpen = false;
+			
+				var cabinDropdown = document.getElementById("dropDownHotspotcabin");
+			
+				cabinDropdown.addEventListener("click", function(e) {
+					if(isCabinOpen){
+						isCabinOpen = false;
+					}else{
+						runHotspotAnimation();
+						isCabinOpen = true;
+					}
+				});
+				
+		
+
+				hotspots.forEach(function(hotspot) {
+					hotspot.addEventListener("click", function(e) {
+						e.stopPropagation();
+
+						var isSame = (activeHotspot === hotspot);
+
+						if (isSame) {
+							tooltip.style.display = "none";
+							activeHotspot = null;
+						} else {
+							var text = hotspot.getAttribute("data-tooltip");
+							tooltip.innerText = text;
+							tooltip.style.display = "block";
+							tooltip.style.top = (hotspot.offsetTop + 30) + "px";
+							tooltip.style.left = (hotspot.offsetLeft + 20) + "px";
+							activeHotspot = hotspot;
+						}
+					});
+				});
+
+			document.addEventListener("click", function(e) {
+				var target = e.target;
+				var isTooltipVisible = tooltip.style.display === "block";
+				var isNotTooltip = target !== tooltip;
+				var isOutsideTooltip = !tooltip.contains(target);
+				var isNotHotspot = !target.classList.contains("hotspot");
+
+				if (isTooltipVisible) {
+					if (isNotTooltip) {
+						if (isOutsideTooltip) {
+							if (isNotHotspot) {
+								tooltip.style.display = "none";
+								activeHotspot = null;
+							}
+						}
+					}
+				}
+			});
+			
+			
+			}); 
+		</script>
           
-              // Fade-in each hotspot with stagger
-              gsap.to(hotspots, {
-                opacity: 1,
-                duration: 3,
-                stagger: 0.3,
-                ease: "power2.out"
-              });
-          
-              hotspots.forEach(hotspot => {
-                hotspot.addEventListener("click", (e) => {
-                  const text = hotspot.getAttribute("data-tooltip");
-                  tooltip.innerText = text;
-                  tooltip.style.display = "block";
-                  tooltip.style.top = `${hotspot.offsetTop + 30}px`;
-                  tooltip.style.left = `${hotspot.offsetLeft + 20}px`;
-                });
-              });
-          
-              // Optional: Hide tooltip when clicked outside
-              document.addEventListener("click", (e) => {
-                if (!e.target.classList.contains("hotspot")) {
-                  tooltip.style.display = "none";
-                }
-              });
-            });
-          </script>
 
           <style>
             
@@ -46,9 +112,8 @@
 
   .hotspot {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: #004c93;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
     cursor: pointer;
     opacity: 0;
@@ -70,166 +135,18 @@
 
     </head>
     <body>
-        <h2>System Main Components and Capabilities</h2>
-        <MadCap:dropDown>
-            <MadCap:dropDownHead>
-                <MadCap:dropDownHotspot>Barrel</MadCap:dropDownHotspot>
-            </MadCap:dropDownHead>
-            <MadCap:dropDownBody>
-                <p class="Text_Style">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
-            </MadCap:dropDownBody>
-        </MadCap:dropDown>
-        <MadCap:dropDown>
-            <MadCap:dropDownHead>
-                <MadCap:dropDownHotspot>Platform</MadCap:dropDownHotspot>
-            </MadCap:dropDownHead>
-            <MadCap:dropDownBody>
-                <MadCap:dropDown>
-                    <MadCap:dropDownHead>
-                        <MadCap:dropDownHotspot>Truck</MadCap:dropDownHotspot>
-                    </MadCap:dropDownHead>
-                    <MadCap:dropDownBody>
-                        <p class="Text_Style">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
-                    </MadCap:dropDownBody>
-                </MadCap:dropDown>
-                <MadCap:dropDown>
-                    <MadCap:dropDownHead>
-                        <MadCap:dropDownHotspot>Cabin</MadCap:dropDownHotspot>
-                    </MadCap:dropDownHead>
-                    <MadCap:dropDownBody>
-                        <div class="hotspot-wrapper">
-                            <p class="pfigure">
-                                <img src="./assets/SIGMA-2.png">
-                                </img>
-                            </p>
-							<div class="hotspot" style="top: 20%; left: 30%;" data-tooltip="The cabin provides ample space and noise isolation, and is optimized for the operating system."></div>
-							<div class="hotspot" style="top: 40%; left: 50%;" data-tooltip="The system is operated from within the cabin by a crew of three: a driver, a commander, and a gunner."></div>
-							<div class="hotspot" style="top: 60%; left: 20%;" data-tooltip="The cabin has two doors for entering and exiting the vehicle, as well as an emergency shelf serving both as an emergency exit and an operational station."></div>
-							<div class="hotspot" style="top: 75%; left: 65%;" data-tooltip="The cabin's windows are constructed from fortified glass. All control panels for loading, firing processes, communication, and Command, Control, Communications, Computers and Intelligence equipment are housed within the cabin."></div>
-                            <div id="tooltip" class="tooltip-box"></div>
-                            <p class="figure-caption">Cabin</p>
-                        </div>
-                    </MadCap:dropDownBody>
-                </MadCap:dropDown>
-                <MadCap:dropDown>
-                    <MadCap:dropDownHead>
-                        <MadCap:dropDownHotspot>Artillery Turret Interface (ATI)</MadCap:dropDownHotspot>
-                    </MadCap:dropDownHead>
-                    <MadCap:dropDownBody>
-                        <p class="Text_Style">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
-                        <p class="Text_Style">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
-                        <p class="TextStyle_Numbering_No_Order">
-                            <ul class="TextStyle_Bullet">
-                                <li>
-                                    <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br /></ol>
-                                </li>
-                                <li>
-                                    <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br /></ol>
-                                </li>
-                                <li>
-                                    <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br /></ol>
-                                </li>
-                                <li>
-                                    <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet.</ol>
-                                </li>
-                            </ul>
-                        </p>
-                    </MadCap:dropDownBody>
-                </MadCap:dropDown>
-                <MadCap:dropDown>
-                    <MadCap:dropDownHead>
-                        <MadCap:dropDownHotspot>Turret <br /></MadCap:dropDownHotspot>
-                    </MadCap:dropDownHead>
-                    <MadCap:dropDownBody>
-                        <p class="Text_Style">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
-                        <p class="Text_Style">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
-                        <ul class="TextStyle_Bullet">
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet.</ol>
-                            </li>
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet.</ol>
-                            </li>
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet.</ol>
-                            </li>
-                        </ul>
-                        <p class="pfigure">
-                            <img src="../../Resources/Images/SIGMA-3.png">
-                            </img>
-                        </p>
-                        <p class="figure-caption">Turret Hull</p>
-                    </MadCap:dropDownBody>
-                </MadCap:dropDown>
-                <MadCap:dropDown>
-                    <MadCap:dropDownHead>
-                        <MadCap:dropDownHotspot>FIRE CONTROL SYSTEM (FCS)</MadCap:dropDownHotspot>
-                    </MadCap:dropDownHead>
-                    <MadCap:dropDownBody>
-                        <ul class="TextStyle_Bullet">
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ol>
-                            </li>
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ol>
-                            </li>
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ol>
-                            </li>
-                        </ul>
-                    </MadCap:dropDownBody>
-                </MadCap:dropDown>
-                <MadCap:dropDown>
-                    <MadCap:dropDownHead>
-                        <MadCap:dropDownHotspot>BMS COMPUTER</MadCap:dropDownHotspot>
-                    </MadCap:dropDownHead>
-                    <MadCap:dropDownBody>
-                        <ul class="TextStyle_Bullet">
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ol>
-                            </li>
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ol>
-                            </li>
-                        </ul>
-                    </MadCap:dropDownBody>
-                </MadCap:dropDown>
-                <MadCap:dropDown>
-                    <MadCap:dropDownHead>
-                        <MadCap:dropDownHotspot>ELECTRONIC SUITE</MadCap:dropDownHotspot>
-                    </MadCap:dropDownHead>
-                    <MadCap:dropDownBody>
-                        <p class="Text_Style">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
-                    </MadCap:dropDownBody>
-                </MadCap:dropDown>
-                <MadCap:dropDown>
-                    <MadCap:dropDownHead>
-                        <MadCap:dropDownHotspot>RESUPPLY SYSTEM</MadCap:dropDownHotspot>
-                    </MadCap:dropDownHead>
-                    <MadCap:dropDownBody>
-                        <p class="Text_Style">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
-                        <p class="Text_Style">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
-                        <ul class="TextStyle_Bullet">
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ol>
-                            </li>
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ol>
-                            </li>
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ol>
-                            </li>
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ol>
-                            </li>
-                            <li>
-                                <ol class="TextStyle_Numbering_No_Order">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</ol>
-                            </li>
-                        </ul>
-                    </MadCap:dropDownBody>
-                </MadCap:dropDown>
-            </MadCap:dropDownBody>
-        </MadCap:dropDown>
-        <MadCap:pageBreak />
+        <button id="dropDownHotspotcabin" class="btn btn-primary">Cabin</button>
+        <div class="hotspot-wrapper" >
+            <p class="pfigure" style="position: relative;">
+                <img id="sigma-2-img" src="./assets/SIGMA-2.png"/>
+                </img>
+            </p>
+            <img src="./assets/polygon.svg" class="hotspot" style="top: 20%; left: 30%;" data-tooltip="The cabin provides ample space and noise isolation, and is optimized for the operating system."></img>
+            <img src="./assets/polygon.svg" class="hotspot" style="top: 40%; left: 50%;" data-tooltip="The system is operated from within the cabin by a crew of three: a driver, a commander, and a gunner."></img>
+            <img src="./assets/polygon.svg" class="hotspot" style="top: 60%; left: 20%;" data-tooltip="The cabin has two doors for entering and exiting the vehicle, as well as an emergency shelf serving both as an emergency exit and an operational station."></img>
+            <img src="./assets/polygon.svg" class="hotspot" style="top: 75%; left: 65%;" data-tooltip="The cabin's windows are constructed from fortified glass. All control panels for loading, firing processes, communication, and Command, Control, Communications, Computers and Intelligence equipment are housed within the cabin."></img>
+            <div id="tooltip" class="tooltip-box"></div>
+            <p class="figure-caption">Cabin</p>
+        </div>        
     </body>
 </html>
