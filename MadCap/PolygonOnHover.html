@@ -1,0 +1,111 @@
+<style>
+    #image-container {
+      position: relative;
+      display: inline-block;
+    }
+  
+    .hotspot {
+      position: absolute;
+      border: 3px solid gray;
+      background-color: rgba(128, 128, 128, 0.3);
+      transition: background-color 0.3s;
+      pointer-events: auto;
+    }
+  
+    .instruction-box {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: white;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      opacity: 0;
+      pointer-events: none;
+      font-size: 0.9rem;
+      max-width: 300px;
+    }
+  </style>
+  
+<html>
+    <head></head>
+    <body>
+        <div id="image-container">
+            <img id="image" src="./assets/beatles.jpg" style="display: block;" />
+          
+            <div id="infoBox" class="instruction-box">Hover over a Beatle to learn more!</div>
+            
+            <div class="hotspot" data-info="Ringo Starr: Drummer" style="bottom: 20%; left: 6%; width: 150px; height: 200px;"></div>
+            <div class="hotspot" data-info="George Harrison: Lead guitarist" style="bottom: 40%; left: 30%; width: 150px; height: 200px;"></div>
+            <div class="hotspot" data-info="Paul McCartney: Bassist and vocalist" style="top: 20%; left: 50%; width: 150px; height: 200px;"></div>
+            <div class="hotspot" data-info="John Lennon: Vocalist and rhythm guitarist" style="bottom: 43%; left: 75%; width: 150px; height: 200px;"></div>
+          </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.5/gsap.min.js"></script>        
+    </body>
+</html>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const imageContainer = document.getElementById("image-container");
+      const hotspots = document.querySelectorAll(".hotspot");
+      const infoBox = document.getElementById("infoBox");
+
+      hotspots.forEach(hotspot => {
+        gsap.to(hotspot, {
+            display: "none",
+        });
+      });
+  
+      function resetHotspots() {
+        hotspots.forEach(h => {
+          gsap.to(h, {
+            backgroundColor: "rgba(128,128,128,0.3)",
+            duration: 0.3
+          });
+        });
+      }
+  
+      // Show gray overlays + info box
+      imageContainer.addEventListener("mouseenter", () => {
+        resetHotspots();
+        gsap.to(infoBox, {
+          opacity: 1,
+          duration: 0.5
+        });
+        hotspots.forEach(hotspot => {
+        gsap.to(hotspot, {
+            display: "block",
+        });
+      });
+      });
+  
+      // Hide everything
+      imageContainer.addEventListener("mouseleave", () => {
+        gsap.to(infoBox, { opacity: 0, duration: 0.3 });
+        hotspots.forEach(hotspot => {
+          gsap.to(hotspot, {
+            display: "none",
+            duration: 0.3
+          });
+        });
+        // resetHotspots();
+      });
+  
+      // For each hotspot
+      hotspots.forEach(hotspot => {
+        hotspot.addEventListener("mouseenter", () => {
+          resetHotspots();
+          gsap.to(hotspot, {
+            backgroundColor: "rgba(173, 216, 230, 0.5)", // lightblue
+            duration: 0.3
+          });
+          infoBox.textContent = hotspot.getAttribute("data-info");
+        });
+  
+        hotspot.addEventListener("mouseleave", () => {
+          infoBox.textContent = "Hover over a Beatle to learn more!";
+          resetHotspots();
+        });
+      });
+    });
+  </script>
+  
