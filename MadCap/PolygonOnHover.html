@@ -10,12 +10,13 @@
       background-color: rgba(128, 128, 128, 0.3);
       pointer-events: auto;
       transform: scale(1);
-      opacity: 0;
+      opacity: 1;
+      transition: opacity 0.3s ease-in-out;
     }
   
     .instruction-box {
       position: absolute;
-      top: 10px;
+      bottom: 10px;
       left: 10px;
       background-color: white;
       padding: 10px;
@@ -47,71 +48,86 @@
       const infoBox = document.getElementById("infoBox");
       let isHoveringHotspot = false;
   
-      // Hide everything at start
-      gsap.set(hotspots, { autoAlpha: 0 });
-      gsap.set(infoBox, { autoAlpha: 0 });
-  
-      // Utility to show all hotspots nicely
-      function showHotspotsSequentially() {
-        gsap.to(hotspots, {
-          autoAlpha: 1,
-          scale: 1,
-          duration: 0.4,
-          stagger: 0.2,
-          ease: "power2.out"
+      // Show hotspots immediately with fade-in
+      gsap.to(hotspots, {
+        opacity: 1,
+        duration: 0.4,
+        stagger: 0.1,
+        ease: "power2.out"
+      });
+
+      function resetHotspots() {
+        hotspots.forEach(h => {
+          h.style.opacity = "1";
+          h.style.backgroundColor = "rgba(128,128,128,0.3)";
+          h.style.transform = "scale(1)";
+
+          gsap.to(hotspots, {
+            opacity: 1,
+            duration: 0.4,
+            stagger: 0.1,
+            ease: "power2.out"
+          });
+
         });
       }
-  
-      function hideHotspots() {
-        gsap.killTweensOf(hotspots);
-        gsap.to(hotspots, {
-          autoAlpha: 0,
-          duration: 0.3,
-          backgroundColor: "rgba(128,128,128,0.3)",
-        });
-      }
-  
+
       imageContainer.addEventListener("mouseenter", () => {
-        if (!isHoveringHotspot) {
-          showHotspotsSequentially();
-        }
         gsap.to(infoBox, { autoAlpha: 1, duration: 0.5 });
       });
-  
+
       imageContainer.addEventListener("mouseleave", () => {
         isHoveringHotspot = false; 
         gsap.to(infoBox, { autoAlpha: 0, duration: 0.3 });
-        hideHotspots(); 
+        resetHotspots(); 
+      });
+
+
+      imageContainer.addEventListener("click", (e) => {
+        const clickedHotspot = e.target.closest('.hotspot');
+        if (!clickedHotspot) {
+          isHoveringHotspot = false;
+          infoBox.textContent = "Hover over a Beatle to learn more!";
+          
+          // Also reset any animations that might be running
+          hotspots.forEach(h => {
+            h.style.opacity = "1";
+            gsap.killTweensOf(h);
+          });
+          resetHotspots();
+
+        }
       }); 
 
   
       hotspots.forEach(hotspot => {
-        hotspot.addEventListener("mouseenter", () => {
-          isHoveringHotspot = true;
-          hotspots.forEach(h => {
-            if (h !== hotspot) gsap.to(h, { autoAlpha: 0, duration: 0.2 });
-          });
-  
-          gsap.to(hotspot, {
-            scale: 1.1,
-            backgroundColor: "rgba(173, 216, 230, 0.5)",
-            duration: 0.3
-          });
-  
-          infoBox.textContent = hotspot.getAttribute("data-info");
+        hotspot.addEventListener("click", () => {
+          if (isHoveringHotspot && hotspot.style.opacity === "1") {
+            // If we're already on this hotspot, reset everything
+            isHoveringHotspot = false;
+            resetHotspots();
+            infoBox.textContent = "Hover over a Beatle to learn more!";
+          } else {
+            // If clicking a different hotspot
+            isHoveringHotspot = true;
+            
+            // Keep all hotspots visible but highlight the clicked one
+            hotspots.forEach(h => {
+              h.style.opacity = "1";
+              h.style.backgroundColor = "rgba(128,128,128,0.3)";
+              h.style.transform = "scale(1)";
+            });
+
+            gsap.to(hotspot, {
+              scale: 1.1,
+              backgroundColor: "rgba(173, 216, 230, 0.5)",
+              duration: 0.3
+            });
+
+            infoBox.textContent = hotspot.getAttribute("data-info");
+          }
         });
   
-        hotspot.addEventListener("mouseleave", () => {
-          isHoveringHotspot = false;
-          gsap.to(hotspot, {
-            scale: 1,
-            backgroundColor: "rgba(128,128,128,0.3)",
-            duration: 0.3
-          });
-          infoBox.textContent = "Hover over a Beatle to learn more!";
-  
-          showHotspotsSequentially();
-        });
       });
     });
   </script>
