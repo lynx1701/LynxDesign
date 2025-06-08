@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GSAP Carousel Demo</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="../gsap.min.js"></script>
+  <style>
+    .gsap-carousel {
+      width: 640px;
+      margin: 2rem auto 2rem auto;
+      padding: 1rem 0;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 2px 24px rgba(0,0,0,0.07);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      position: relative;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .carousel-images-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 600px;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+      overflow: visible;
+      will-change: transform;
+    }
+    .carousel-img {
+      transition: box-shadow 0.3s;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+      object-fit: cover;
+      background: #eee;
+    }
+    .carousel-img.center {
+      width: 220px;
+      height: 160px;
+      border-radius: 14px;
+      z-index: 2;
+      margin: 0 0.5rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.13);
+    }
+    .carousel-img.side {
+      width: 120px;
+      height: 100px;
+      border-radius: 10px;
+      opacity: 0.7;
+      margin: 0 -40px;
+      z-index: 1;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.09);
+    }
+    .carousel-arrow {
+      background: var(--main-color, #3498db);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.09);
+      transition: background 0.2s;
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .carousel-arrow.left {
+      margin-right: -18px;
+      transform: rotate(180deg);
+    }
+    .carousel-arrow.right {
+      margin-left: -18px;
+      transform: rotate(180deg);
+    }
+    .carousel-arrow:hover {
+      background: #217dbb;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="text-align:center;">GSAP Carousel Demo</h1>
+  <div class="gsap-carousel" id="gsap-carousel">
+    <button id="gsap-carousel-prev" class="carousel-arrow left" aria-label="Previous">&#8594;</button>
+    <div class="carousel-images-row" id="carousel-images-row">
+      <!-- Images will be rendered here by JS -->
+    </div>
+    <button id="gsap-carousel-next" class="carousel-arrow right" aria-label="Next">&#8592;</button>
+  </div>
+  <script src="../carousel.js"></script>
+</body>
+</html>
