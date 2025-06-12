@@ -1,73 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Showcase Navigation</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <style>
-    h1 {
-      margin-bottom: 1rem;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Showcase Navigation</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+      h1 {
+        margin-bottom: 1rem;
+      }
 
-    .nav-section {
-      margin-bottom: 2rem;
-    }
+      .nav-section {
+        margin-bottom: 2rem;
+      }
 
-    .nav-section h2 {
-      margin-bottom: 0.5rem;
-      color: var(--main-color);
-    }
+      .nav-section h2 {
+        margin-bottom: 0.5rem;
+        color: var(--main-color);
+      }
 
-    ul {
-      list-style: none;
-      padding-left: 0;
-    }
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
 
-    li {
-      margin: 0.5rem 0;
-    }
+      li {
+        margin: 0.5rem 0;
+      }
 
-    a {
-      color: #333;
-      padding: 0.3rem 0.5rem;
-      border-bottom: 1px solid transparent;
-      transition: all 0.2s ease;
-    }
+      a {
+        color: #333;
+        padding: 0.3rem 0.5rem;
+        border-bottom: 1px solid transparent;
+        transition: all 0.2s ease;
+      }
 
-    a:hover {
-      border-color: var(--main-color);
-      color: var(--main-color);
-    }
-  </style>
-</head>
-<body style="direction:rtl; text-align:right;">
-  <h1>🌐 HTML/CSS + JS Showcase</h1>
+      a:hover {
+        border-color: var(--main-color);
+        color: var(--main-color);
+      }
+    </style>
+    <script src="gsap.min.js"></script>
+    <style>
+      .gsap-carousel {
+        width: 520px;
+        margin: 2rem auto 2rem auto;
+        padding: 1rem 0;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 2px 24px rgba(0, 0, 0, 0.07);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+        justify-content: center;
+      }
+      .carousel-images-row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 380px;
+        justify-content: center;
+        position: relative;
+        z-index: 1;
+        overflow: visible;
+      }
+      .carousel-img {
+        transition: box-shadow 0.3s;
+        box-shadow: 0 1px 8px rgba(0, 0, 0, 0.06);
+        object-fit: cover;
+        background: #eee;
+      }
+      .carousel-img.center {
+        width: 220px;
+        height: 160px;
+        border-radius: 14px;
+        z-index: 2;
+        margin: 0 0.5rem;
+        box-shadow: 0 2px 16px rgba(0, 0, 0, 0.13);
+      }
+      .carousel-img.side {
+        width: 120px;
+        height: 100px;
+        border-radius: 10px;
+        opacity: 0.7;
+        margin: 0 -40px;
+        z-index: 1;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.09);
+      }
+      .carousel-arrow {
+        background: var(--main-color, #3498db);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.09);
+        transition: background 0.2s;
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .carousel-arrow.left {
+        margin-right: -18px;
+      }
+      .carousel-arrow.right {
+        margin-left: -18px;
+      }
+      .carousel-arrow:hover {
+        background: #217dbb;
+      }
+    </style>
+  </head>
+  <body style="direction: rtl; text-align: right">
+    <h1>🌐 HTML/CSS + JS Showcase</h1>
 
-  <div class="nav-section">
-    <h2>🧱אבני בנייה</h2>
-    <ul>
-      <li><a href="demos/flip-card.html">הפוך כרטיס בעת הצגת עכבר</a></li>
-      <li><a href="gsap/gsap-3d-rotate.html">היפוך תלת מימד בלחיצה</a></li>
-      <li><a href="animation/fade-in.html">Fade In</a></li>
-      <li><a href="animation/hover-effects.html">Hover Effects</a></li>
-    </ul>
-  </div>
+    <div class="nav-section">
+      <h2>🧱אבני בנייה</h2>
+      <ul>
+        <li><a href="demos/flip-card.html">הפוך כרטיס בעת הצגת עכבר</a></li>
+        <li><a href="gsap/gsap-3d-rotate.html">היפוך תלת מימד בלחיצה</a></li>
+        <li><a href="animation/fade-in.html">Fade In</a></li>
+        <li><a href="animation/hover-effects.html">Hover Effects</a></li>
+      </ul>
+    </div>
 
+    <div class="nav-section">
+      <h2>🎞️בפיתוח...</h2>
+      <ul>
+        <li><a href="gsap/gsap-page-flip.html">מעבר עמוד בסיסי</a></li>
+      </ul>
+    </div>
 
-  <div class="nav-section">
-    <h2>🎞️בפיתוח...</h2>
-    <ul>
-      <li><a href="gsap/gsap-page-flip.html">מעבר עמוד בסיסי</a></li>
-    </ul>
-  </div>
-
-  <div class="nav-section">
-    <h2>🎨 תוצרים מוכנים להטמעה</h2>
-    <ul>
-      <li><a href="MadCap/SystemMainComponents.html">אנימציית הוטספוט עם פוליגונים</a></li>
-      <li><a href="MadCap/PolygonOnHover.html">ImageMapster - הצגה על תמונה</a></li>
-    </ul>
-  </div>
-</body>
+    <div class="nav-section">
+      <h2>🎨 תוצרים מוכנים להטמעה</h2>
+      <ul>
+        <li>
+          <a href="MadCap/SystemMainComponents.html"
+            >אנימציית הוטספוט עם פוליגונים</a
+          >
+          >
+        </li>
+        <li><a href="MadCap/PolygonOnHover.html">ביטלס הוטספוט</a></li>
+        <li><a href="MadCap/carousel.html">GSAP קרוסלה</a></li>
+      </ul>
+    </div>
+  </body>
 </html>
