@@ -43,19 +43,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+
+      /**
+       * ========== INITIALIZATION ========== 
+       *  Assign an image container id - image-container
+       *  Assign an info box id - infoBox
+       *  Assign hotspots class - hotspot
+       */
+
       const imageContainer = document.getElementById("image-container");
       const hotspots = document.querySelectorAll(".hotspot");
       const infoBox = document.getElementById("infoBox");
       let isHoveringHotspot = false;
   
-      // Show hotspots immediately with fade-in
-      gsap.to(hotspots, {
-        opacity: 1,
-        duration: 0.4,
-        stagger: 0.1,
-        ease: "power2.out"
-      });
-
       function resetHotspots() {
         hotspots.forEach(h => {
           h.style.opacity = "1";
@@ -68,6 +68,8 @@
             stagger: 0.1,
             ease: "power2.out"
           });
+
+          infoBox.textContent = "Hover over a Beatle to learn more!";
 
         });
       }
@@ -88,12 +90,6 @@
         if (!clickedHotspot) {
           isHoveringHotspot = false;
           infoBox.textContent = "Hover over a Beatle to learn more!";
-          
-          // Also reset any animations that might be running
-          hotspots.forEach(h => {
-            h.style.opacity = "1";
-            gsap.killTweensOf(h);
-          });
           resetHotspots();
 
         }
@@ -108,9 +104,7 @@
             resetHotspots();
             infoBox.textContent = "Hover over a Beatle to learn more!";
           } else {
-            // If clicking a different hotspot
             isHoveringHotspot = true;
-            
             // Keep all hotspots visible but highlight the clicked one
             hotspots.forEach(h => {
               h.style.opacity = "1";
@@ -132,3 +126,5 @@
     });
   </script>
   
+
+
