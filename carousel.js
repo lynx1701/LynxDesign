@@ -51,15 +51,31 @@ function renderImages() {
     img.dataset.idx = i % images.length;
     img.dataset.originalIdx = i;
     
-    // Add click handler for fullscreen
-    img.addEventListener('click', function(e) {
-      var idx = parseInt(this.dataset.idx);
+    // Add click handler to center image or open fullscreen
+    img.addEventListener('click', function() {
       if (this.classList.contains('center')) {
+        // If already centered, open fullscreen
         openFullscreen(this.src);
       } else {
-        // If clicked on side image, center it
-        var targetIdx = parseInt(this.dataset.originalIdx) - startIdx;
-        slideTo(targetIdx, targetIdx > current ? 1 : -1);
+        // Otherwise, center this image
+        var containerWidth = imagesRow.parentElement.offsetWidth;
+        var imgRect = this.getBoundingClientRect();
+        var containerRect = imagesRow.parentElement.getBoundingClientRect();
+        var imgCenter = imgRect.left + imgRect.width/2;
+        var containerCenter = containerRect.left + containerRect.width/2;
+        var offset = imgCenter - containerCenter;
+        
+        // Calculate the new position to center the clicked image
+        var currentX = gsap.getProperty(imagesRow, 'x');
+        var targetX = currentX - offset;
+        
+        // Animate to the new position
+        gsap.to(imagesRow, {
+          x: targetX,
+          duration: 0.6,
+          ease: 'power2.inOut',
+          onComplete: updateHighlight
+        });
       }
     });
     
@@ -77,30 +93,41 @@ function renderImages() {
 function updateHighlight() {
   var imgs = imagesRow.querySelectorAll('.carousel-img');
   var centerIdx = Math.floor(visibleCount / 2);
+  var containerRect = imagesRow.parentElement.getBoundingClientRect();
+  var containerCenter = containerRect.left + containerRect.width / 2;
   
   for (var i = 0; i < imgs.length; i++) {
     var img = imgs[i];
     var imgRect = img.getBoundingClientRect();
-    var containerRect = imagesRow.getBoundingClientRect();
     var imgCenter = imgRect.left + imgRect.width / 2;
-    var containerCenter = containerRect.left + containerRect.width / 2;
     
-    // Check if image is in center
-    if (Math.abs(imgCenter - containerCenter) < 20) { // 20px threshold
-      img.classList.add('center');
-      img.style.width = centerImgWidth + 'px';
-      img.style.height = '200px';
-      img.style.zIndex = '2';
-      img.style.opacity = '1';
+    // Check if image is in center (with 20px threshold)
+    if (Math.abs(imgCenter - containerCenter) < 20) {
+      // This is the center image
+      if (!img.classList.contains('center')) {
+        img.classList.add('center');
+        // Slightly enlarge the center image
+        img.style.width = (centerImgWidth * 1.05) + 'px';
+        img.style.height = '210px';
+        img.style.zIndex = '2';
+        img.style.opacity = '1';
+        img.style.transition = 'all 0.3s ease';
+        img.style.cursor = 'zoom-in';
+      }
       
       // Update current index
       current = parseInt(img.dataset.idx);
     } else {
-      img.classList.remove('center');
-      img.style.width = imgWidth + 'px';
-      img.style.height = '120px';
-      img.style.zIndex = '1';
-      img.style.opacity = '0.6';
+      // This is not the center image
+      if (img.classList.contains('center')) {
+        img.classList.remove('center');
+        img.style.width = imgWidth + 'px';
+        img.style.height = '120px';
+        img.style.zIndex = '1';
+        img.style.opacity = '0.6';
+        img.style.transition = 'all 0.3s ease';
+        img.style.cursor = 'pointer';
+      }
     }
   }
   
@@ -127,15 +154,23 @@ function slideTo(idx, direction) {
 }
 
 function nextImage() {
-  if (isAnimating) return;
+  if (isAnimating || !imagesRow) return;
   var currentPosition = gsap.getProperty(imagesRow, 'x');
-  slideTo(-currentPosition / (imgWidth + gap) + 1, 1);
+  var targetIndex = Math.round(-currentPosition / (imgWidth + gap)) + 1;
+  slideTo(targetIndex, 1);
 }
 
 function prevImage() {
-  if (isAnimating) return;
+  if (isAnimating || !imagesRow) return;
   var currentPosition = gsap.getProperty(imagesRow, 'x');
-  slideTo(-currentPosition / (imgWidth + gap) - 1, -1);
+  var targetPosition = currentPosition + (imgWidth + gap) - 1;
+  
+  gsap.to(imagesRow, {
+    x: targetPosition,
+    duration: 0.8,
+    ease: 'power2.inOut',
+    onComplete: updateHighlight
+  });
 }
 
 function checkLoop() {
@@ -235,10 +270,15 @@ function initEventListeners() {
   fullscreenOverlay = document.getElementById('fullscreen-overlay');
   fullscreenImg = document.getElementById('fullscreen-img');
 
-  // Navigation buttons
-  if (prevBtn) prevBtn.addEventListener('click', prevImage);
-  if (nextBtn) nextBtn.addEventListener('click', nextImage);
+  // Navigation buttons - use arrow functions to maintain 'this' context
+  if (prevBtn) prevBtn.addEventListener('click', () => prevImage());
+  if (nextBtn) nextBtn.addEventListener('click', () => nextImage());
   if (playPauseBtn) playPauseBtn.addEventListener('click', togglePlayPause);
+  
+  // Set cursor to pointer for center image clicks
+  if (imagesRow) {
+    imagesRow.style.cursor = 'pointer';
+  }
   
   // Pause on hover
   if (carousel) {
