@@ -102,10 +102,8 @@
       }
     });
     
-    var i = 0;
-    var area = areas[i];
-    while (i < areas.length) {
-      area = areas[i];
+    var areasArray = Array.prototype.slice.call(areas);
+    areasArray.forEach(function(area) {
       var areaId = area.getAttribute("data-id");
       var highlight = highlights[areaId];
       
@@ -137,11 +135,9 @@
         var currentHighlight = highlights[currentAreaId];
         
         var highlightKeys = Object.keys(highlights);
-        var j = 0;
-        while (j < highlightKeys.length) {
-          highlights[highlightKeys[j]].classList.remove('highlighted');
-          j++;
-        }
+        highlightKeys.forEach(function(key) {
+          highlights[key].classList.remove('highlighted');
+        });
         
         if (currentArea === this) {
           currentArea = null;
@@ -152,18 +148,14 @@
           infoBox.textContent = this.getAttribute("data-info");
         }
       });
-      
-      i++;
-    }
+    });
     
     imageContainer.addEventListener("click", function(e) {
       if (e.target.tagName !== 'AREA') {
         var highlightKeys = Object.keys(highlights);
-        var i = 0;
-        while (i < highlightKeys.length) {
-          highlights[highlightKeys[i]].classList.remove('highlighted');
-          i++;
-        }
+        highlightKeys.forEach(function(key) {
+          highlights[key].classList.remove('highlighted');
+        });
         currentArea = null;
         infoBox.textContent = "Hover over a Beatle to learn more!";
       }
