@@ -2,12 +2,12 @@
     .image-container {
       position: relative;
       display: inline-block;
+      height: max-content;
     }
     
     .instruction-box {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
+      position: relative;
+      margin: 0px 10px 0px 0px;
       background-color: white;
       padding: 10px;
       border-radius: 8px;
@@ -15,8 +15,16 @@
       opacity: 0;
       pointer-events: none;
       font-size: 0.9rem;
-      max-width: 300px;
+      max-width: 200px;
       z-index: 10;
+      max-height: max-content;
+      text-wrap: wrap;
+      border: 1px solid black;
+
+    }
+
+    .mainContainer{
+      display: flex;
     }
     
     .highlight-area {
@@ -34,14 +42,17 @@
     }
 </style>
 
-<div class="image-container">
-  <img id="beatles-image" src="./assets/beatles.jpg" style="display: block;" usemap="#beatles-map" />
-  <div id="highlight-ringo" class="highlight-area" data-area="ringo"></div>
-  <div id="highlight-george" class="highlight-area" data-area="george"></div>
-  <div id="highlight-paul" class="highlight-area" data-area="paul"></div>
-  <div id="highlight-john" class="highlight-area" data-area="john"></div>
+<div class="mainContainer">
   <div class="infoBox instruction-box">Hover over a Beatle to learn more!</div>
+  <div class="image-container">
+    <img id="beatles-image" src="./assets/beatles.jpg" style="display: block;" usemap="#beatles-map" />
+    <div id="highlight-ringo" class="highlight-area" data-area="ringo"></div>
+    <div id="highlight-george" class="highlight-area" data-area="george"></div>
+    <div id="highlight-paul" class="highlight-area" data-area="paul"></div>
+    <div id="highlight-john" class="highlight-area" data-area="john"></div>
+  </div>
 </div>
+
 
 <map name="beatles-map">
   <area shape="rect" coords="56,651,184,795" data-info="Ringo Starr: Drummer" data-id="ringo" alt="Ringo Starr"/>
