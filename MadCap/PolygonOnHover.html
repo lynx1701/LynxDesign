@@ -1,51 +1,113 @@
 <style>
-    .image-container {
-      position: relative;
-      display: inline-block;
-      height: max-content;
-    }
-    
-    .instruction-box {
-      position: relative;
-      margin: 0px 10px 0px 0px;
-      background-color: white;
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
-      opacity: 0;
-      pointer-events: none;
-      font-size: 0.9rem;
-      max-width: 200px;
-      z-index: 10;
-      max-height: max-content;
-      text-wrap: wrap;
-      border: 1px solid black;
+  .image-container {
+    position: relative;
+    display: inline-block;
+    height: max-content;
+  }
 
-    }
+  .instruction-box {
+    position: relative;
+    margin: 0px 10px 0px 0px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    pointer-events: none; /* toggled with JS */
+    font-size: 0.85rem;
+    max-width: 260px;
+    z-index: 10;
+    text-wrap: wrap;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 
-    .mainContainer{
-      display: flex;
-    }
-    
-    .highlight-area {
-      position: absolute;
-      border: 2px solid rgba(70, 130, 180, 0.5);
-      pointer-events: none;
-      transition: all 0.3s ease-in-out;
-      opacity: 1 !important; /* Ensure highlights are always visible */
-    }
-    
-    .highlight-area.highlighted {
-      background-color: rgba(173, 216, 230, 0.5);
-      border-color: #4682b4;
-      border-width: 2px;
-    }
+  .infobox-header {
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .infobox-table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .infobox-table th,
+  .infobox-table td {
+    border: 1px solid #000;
+    padding: 4px;
+    text-align: center;
+    font-size: 0.8rem;
+    word-wrap: break-word;
+  }
+
+  .infobox-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .infobox-pagination button {
+    cursor: pointer;
+    padding: 3px 6px;
+    border-radius: 4px;
+    border: 1px solid #000;
+    background: #fff;
+    font-size: 0.75rem;
+  }
+
+  .infobox-pagination button:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .infobox-page-indicator {
+    font-size: 0.8rem;
+    opacity: 0.7;
+  }
+
+  .mainContainer {
+    display: flex;
+  }
+
+  .highlight-area {
+    position: absolute;
+    border: 2px solid rgba(70, 130, 180, 0.5);
+    pointer-events: none;
+    transition: all 0.3s ease-in-out;
+    opacity: 1 !important;
+  }
+
+  .highlight-area.highlighted {
+    background-color: rgba(173, 216, 230, 0.5);
+    border-color: #4682b4;
+    border-width: 2px;
+  }
 </style>
 
 <div class="mainContainer">
-  <div class="infoBox instruction-box">Hover over a Beatle to learn more!</div>
+  <div class="infoBox instruction-box">
+    <div class="infobox-header">Hover over a Beatle to learn more</div>
+    <table class="infobox-table"></table>
+    <div class="infobox-pagination">
+      <button type="button" class="infobox-prev">Prev</button>
+      <span class="infobox-page-indicator">Page 1/1</span>
+      <button type="button" class="infobox-next">Next</button>
+    </div>
+  </div>
+
   <div class="image-container">
-    <img id="beatles-image" src="./assets/beatles.jpg" style="display: block;" usemap="#beatles-map" />
+    <img
+      id="beatles-image"
+      src="./assets/beatles.jpg"
+      style="display: block"
+      usemap="#beatles-map"
+      alt="The Beatles"
+    />
     <div id="highlight-ringo" class="highlight-area" data-area="ringo"></div>
     <div id="highlight-george" class="highlight-area" data-area="george"></div>
     <div id="highlight-paul" class="highlight-area" data-area="paul"></div>
@@ -53,117 +115,218 @@
   </div>
 </div>
 
-
 <map name="beatles-map">
-  <area shape="rect" coords="56,651,184,795" data-info="Ringo Starr: Drummer" data-id="ringo" alt="Ringo Starr"/>
-  <area shape="rect" coords="180,418,367,624" data-info="George Harrison: Lead guitarist" data-id="george" alt="George Harrison"/>
-  <area shape="rect" coords="335,210,469,406" data-info="Paul McCartney: Bassist and vocalist" data-id="paul" alt="Paul McCartney"/>
-  <area shape="rect" coords="494,334,649,591" data-info="John Lennon: Vocalist and rhythm guitarist" data-id="john" alt="John Lennon"/>
+  <area
+    shape="rect"
+    coords="56,651,184,795"
+    data-info="Ringo Starr: Drummer"
+    data-id="ringo"
+    alt="Ringo Starr"
+  />
+  <area
+    shape="rect"
+    coords="180,418,367,624"
+    data-info="George Harrison: Lead guitarist"
+    data-id="george"
+    alt="George Harrison"
+  />
+  <area
+    shape="rect"
+    coords="335,210,469,406"
+    data-info="Paul McCartney: Bassist and vocalist"
+    data-id="paul"
+    alt="Paul McCartney"
+  />
+  <area
+    shape="rect"
+    coords="494,334,649,591"
+    data-info="John Lennon: Vocalist and rhythm guitarist"
+    data-id="john"
+    alt="John Lennon"
+  />
 </map>
-  
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-    const image = document.getElementById("beatles-image");
     const infoBox = document.querySelector(".infoBox");
+    const tableEl = document.querySelector(".infobox-table");
+    const headerEl = document.querySelector(".infobox-header");
+    const prevBtn = document.querySelector(".infobox-prev");
+    const nextBtn = document.querySelector(".infobox-next");
+    const pageEl = document.querySelector(".infobox-page-indicator");
+
     const highlights = {
       ringo: document.getElementById("highlight-ringo"),
       george: document.getElementById("highlight-george"),
       paul: document.getElementById("highlight-paul"),
-      john: document.getElementById("highlight-john")
+      john: document.getElementById("highlight-john"),
     };
+
     const areas = document.querySelectorAll('map[name="beatles-map"] area');
     let currentArea = null;
-    
+
+    // Example table data per Beatle (more rows than 4 triggers paging)
+    const tableData = {
+      ringo: [
+        ["Drums", "Liverpool", "1962", "Peace & Love"],
+        ["Octopus's Garden", "Songs", "Films", "All-Starr Band"],
+        ["Charity", "Awards", "Touring", "Acting"],
+        ["Family", "Solo Albums", "Friends", "Quotes"],
+        ["Extra Row1", "Extra Row2", "Extra Row3", "Extra Row4"],
+      ],
+      george: [
+        ["Guitar", "India", "Sitar", "Spirituality"],
+        ["Concert for Bangladesh", "Solo", "The Beatles", "Production"],
+        ["Dark Horse", "Traveling Wilburys", "Film", "Charity"],
+      ],
+      paul: [
+        ["Bass", "Vocals", "Songwriting", "Wings"],
+        ["Hey Jude", "Yesterday", "Classical", "Experimental"],
+        ["Tours", "Records", "Family", "Films"],
+      ],
+      john: [
+        ["Vocals", "Rhythm Guitar", "Writing", "Activism"],
+        ["Imagine", "Peace", "Bed-ins", "Poetry"],
+        ["Art", "Books", "Yoko", "Solo"],
+      ],
+    };
+
+    // Paging state
+    const ROWS_PER_PAGE = 2;
+    let currentRows = [];
+    let currentPage = 1;
+    let totalPages = 1;
+
+    function renderTable() {
+      const start = (currentPage - 1) * ROWS_PER_PAGE;
+      const slice = currentRows.slice(start, start + ROWS_PER_PAGE);
+
+      tableEl.innerHTML = slice
+        .map(
+          (row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`
+        )
+        .join("");
+
+      pageEl.textContent = `Page ${currentPage}/${totalPages}`;
+      prevBtn.disabled = currentPage <= 1;
+      nextBtn.disabled = currentPage >= totalPages;
+    }
+
+    function showTable(areaId, title) {
+      currentRows = tableData[areaId] || [];
+      totalPages = Math.max(1, Math.ceil(currentRows.length / ROWS_PER_PAGE));
+      currentPage = 1;
+      headerEl.textContent = title;
+      renderTable();
+    }
+
+    function showDefault() {
+      headerEl.textContent = "Hover over a Beatle to learn more";
+      tableEl.innerHTML = "";
+      pageEl.textContent = "Page 1/1";
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+    }
+
+    prevBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (currentPage > 1) {
+        currentPage--;
+        renderTable();
+      }
+    });
+
+    nextBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (currentPage < totalPages) {
+        currentPage++;
+        renderTable();
+      }
+    });
+
+    // Highlight initialization
     function initHighlights() {
-      areas.forEach(area => {
-        const coords = area.getAttribute("coords").split(',').map(Number);
+      areas.forEach((area) => {
+        const coords = area.getAttribute("coords").split(",").map(Number);
         const [x1, y1, x2, y2] = coords;
         const areaId = area.getAttribute("data-id");
         const highlight = highlights[areaId];
-        
+
         if (highlight) {
-          highlight.style.left = x1 + 'px';
-          highlight.style.top = y1 + 'px';
-          highlight.style.width = (x2 - x1) + 'px';
-          highlight.style.height = (y2 - y1) + 'px';
+          highlight.style.left = x1 + "px";
+          highlight.style.top = y1 + "px";
+          highlight.style.width = x2 - x1 + "px";
+          highlight.style.height = y2 - y1 + "px";
         }
       });
     }
-    
+
     const imageContainer = document.querySelector(".image-container");
     imageContainer.addEventListener("mouseenter", () => {
-      gsap.to(infoBox, { autoAlpha: 1, duration: 0.5 });
+      gsap.to(infoBox, {
+        autoAlpha: 1,
+        duration: 0.5,
+        onStart: () => {
+          infoBox.style.pointerEvents = "auto";
+        },
+      });
     });
-    
+
     imageContainer.addEventListener("mouseleave", () => {
       if (!currentArea) {
-        gsap.to(infoBox, { autoAlpha: 0, duration: 0.3 });
+        gsap.to(infoBox, {
+          autoAlpha: 0,
+          duration: 0.3,
+          onComplete: () => {
+            infoBox.style.pointerEvents = "none";
+          },
+        });
       }
     });
-    
-    var areasArray = Array.prototype.slice.call(areas);
-    areasArray.forEach(function(area) {
-      var areaId = area.getAttribute("data-id");
-      var highlight = highlights[areaId];
-      
-      area.addEventListener("mouseenter", function(e) {
-        var currentAreaId = this.getAttribute("data-id");
-        var currentHighlight = highlights[currentAreaId];
-        
-        if (currentArea !== this) {
-          currentHighlight.classList.add('highlighted');
-          infoBox.textContent = this.getAttribute("data-info");
-        }
+
+    areas.forEach(function (area) {
+      area.addEventListener("mouseenter", function () {
+        const id = this.getAttribute("data-id");
+        highlights[id].classList.add("highlighted");
+        showTable(id, this.getAttribute("data-info"));
       });
-      
-      area.addEventListener("mouseleave", function(e) {
-        var currentAreaId = this.getAttribute("data-id");
-        var currentHighlight = highlights[currentAreaId];
-        
-        if (currentArea !== this) {
-          currentHighlight.classList.remove('highlighted');
-          if (currentArea === null) {
-            infoBox.textContent = "Hover over a Beatle to learn more!";
-          }
-        }
+
+      area.addEventListener("mouseleave", function () {
+        const id = this.getAttribute("data-id");
+        highlights[id].classList.remove("highlighted");
+        if (!currentArea) showDefault();
       });
-      
-      area.addEventListener("click", function(e) {
+
+      area.addEventListener("click", function (e) {
         e.preventDefault();
-        var currentAreaId = this.getAttribute("data-id");
-        var currentHighlight = highlights[currentAreaId];
-        
-        var highlightKeys = Object.keys(highlights);
-        highlightKeys.forEach(function(key) {
-          highlights[key].classList.remove('highlighted');
-        });
-        
+        const id = this.getAttribute("data-id");
+        Object.values(highlights).forEach((h) =>
+          h.classList.remove("highlighted")
+        );
+
         if (currentArea === this) {
           currentArea = null;
-          infoBox.textContent = "Hover over a Beatle to learn more!";
+          showDefault();
         } else {
           currentArea = this;
-          currentHighlight.classList.add('highlighted');
-          infoBox.textContent = this.getAttribute("data-info");
+          highlights[id].classList.add("highlighted");
+          showTable(id, this.getAttribute("data-info"));
         }
       });
     });
-    
-    imageContainer.addEventListener("click", function(e) {
-      if (e.target.tagName !== 'AREA') {
-        var highlightKeys = Object.keys(highlights);
-        highlightKeys.forEach(function(key) {
-          highlights[key].classList.remove('highlighted');
-        });
+
+    imageContainer.addEventListener("click", function (e) {
+      if (e.target.tagName !== "AREA") {
+        Object.values(highlights).forEach((h) =>
+          h.classList.remove("highlighted")
+        );
         currentArea = null;
-        infoBox.textContent = "Hover over a Beatle to learn more!";
+        showDefault();
       }
     });
-    
+
     initHighlights();
+    showDefault();
   });
 </script>
-  
-
-
