@@ -1,0 +1,153 @@
+:root {
+    --main-color: #3498db;
+}
+
+/* The carousel fills whatever wraps it */
+.gsap-carousel {
+    width: 100%;
+    height: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+
+    /* JS updates these based on real space */
+    --thumb-w: 250px;
+    --thumb-h: 250px;
+    --gap: 20px;
+
+    display: flex;
+    /* arrows + row on one line */
+    align-items: center;
+    column-gap: 12px;
+    /* space between arrows and row */
+    position: relative;
+    /* for play/pause chip */
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 24px rgba(0, 0, 0, .07);
+    user-select: none;
+    overflow: hidden;
+    /* masks slight scale overshoot */
+}
+
+/* Row expands between arrows */
+.carousel-images-row {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px 0;
+    overflow: visible;
+    will-change: transform;
+    width: 1px;
+
+    /* IMPORTANT: use flex gap, not per-image margins */
+    gap: var(--gap);
+}
+
+/* Fallback look before JS rebuilds */
+.carousel-images-row>img {
+    width: var(--thumb-w);
+    height: var(--thumb-h);
+    /* spacing comes from row gap */
+    object-fit: cover;
+    background: #eee;
+    border-radius: 10px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, .06);
+    opacity: 0.6;
+    display: block;
+}
+
+/* Programmatic items */
+.carousel-img {
+    width: var(--thumb-w);
+    height: var(--thumb-h);
+    /* spacing comes from row gap */
+    object-fit: cover;
+    background: #eee;
+    border-radius: 10px;
+    box-shadow: 0 1px 8px rgba(0, 0, 0, .06);
+    transform-origin: center center;
+    opacity: 0.6;
+    transition: box-shadow .2s ease;
+    cursor: pointer;
+    position: relative;
+    /* ensure z-index works predictably */
+    z-index: 1;
+}
+
+.carousel-img.is-center {
+    opacity: 1;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, .15);
+    z-index: 2;
+    /* still under arrows */
+}
+
+/* Arrows IN FLOW at the sides; guaranteed above images */
+.carousel-arrow {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--main-color);
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.09);
+
+    /* CRITICAL: z-index only works on positioned elements */
+    position: relative;
+    z-index: 10;
+}
+
+.carousel-arrow.left {
+    transform: rotate(180deg);
+}
+
+.carousel-arrow.right {
+    transform: none;
+}
+
+.carousel-arrow:hover {
+    filter: brightness(.9);
+}
+
+/* Play/Pause chip */
+.carousel-play-pause {
+    position: absolute;
+    left: 50%;
+    bottom: 8px;
+    transform: translateX(-50%);
+    border: 0;
+    border-radius: 20px;
+    padding: 5px 12px;
+    background: #f5f5f5;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
+    cursor: pointer;
+}
+
+/* Fullscreen overlay */
+#fullscreen-overlay {
+    position: fixed;
+    inset: 0;
+    display: none;
+    /* JS toggles to flex */
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, .9);
+    z-index: 2147483647;
+    cursor: pointer;
+}
+
+#fullscreen-img {
+    width: auto !important;
+    /* ignore any thumb sizing */
+    height: auto !important;
+    max-width: 90vw;
+    max-height: 90vh;
+    object-fit: contain;
+    pointer-events: none;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, .5);
+    border-radius: 6px;
+}

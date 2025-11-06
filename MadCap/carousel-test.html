@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" type="text/css" href="./carousel/carousel.css" />
+
+  <!-- GSAP -->
+  <script type="text/javascript" src="../gsap.min.js"></script>
+
+  <!-- Carousel logic -->
+  <script type="text/javascript" src="../carousel.js" defer="defer"></script>
+
+  <!-- Demo wrapper to prove responsiveness -->
+  <style type="text/css">
+    #wrapping-div {
+      width: 420px;
+      /* try 280px, 600px, 1000px, etc. */
+      height: 320px;
+      /* try different heights too */
+      background: rebeccapurple;
+      padding: 12px;
+      box-sizing: border-box;
+      margin: 24px auto;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="wrapping-div">
+    <div class="gsap-carousel" id="gsap-carousel">
+      <button id="gsap-carousel-prev" class="carousel-arrow left">&#8594;</button>
+
+      <div class="carousel-images-row" id="carousel-images-row">
+        <!-- Add data-full for hi-res fullscreen if you have it -->
+        <img src="images/01.jpg" data-full="images/01.jpg" alt="" />
+        <img src="images/01.jpg" data-full="images/01.jpg" alt="" />
+      </div>
+
+      <button id="gsap-carousel-next" class="carousel-arrow right">&#8594;</button>
+
+      <button id="carousel-play-pause" class="carousel-play-pause">Auto</button>
+    </div>
+  </div>
+
+  <!-- Fullscreen overlay (present or will be created by JS if missing) -->
+  <div id="fullscreen-overlay" style="display: none;">
+    <img id="fullscreen-img" src="" alt="" />
+  </div>
+</body>
+
+</html>
