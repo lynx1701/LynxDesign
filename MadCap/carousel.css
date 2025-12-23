@@ -1,0 +1,150 @@
+/* === Root carousel === */
+.flare-carousel[data-carousel] {
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    /* Config */
+    --visible-count: 4;
+    /* default, JS can override from data-visible */
+    --gap: 8px;
+    box-sizing: border-box;
+}
+
+/* The viewport is the "mask" that hides overflow */
+.flare-carousel-viewport {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* The moving strip */
+.flare-carousel-track {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--gap);
+
+    transform: translateX(0px);
+    transition: transform 260ms ease;
+    will-change: transform;
+}
+
+/* Images: always show N items in the viewport width */
+.flare-carousel-track>img {
+    /* Each image takes 1/N of the viewport (minus gaps) */
+    flex: 0 0 calc((100% - (var(--visible-count) - 1) * var(--gap)) / var(--visible-count));
+
+    min-width: 0;
+    height: 100%;
+    width: auto;
+
+    object-fit: cover;
+    cursor: pointer;
+
+    user-select: none;
+    -webkit-user-drag: none;
+
+    border-radius: 8px;
+}
+
+/* === Navigation arrows === */
+.flare-carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+    border-radius: 999px;
+
+    cursor: pointer;
+    z-index: 3;
+
+    color: #fff;
+    background: rgba(0, 0, 0, 0.45);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* stays visible even at ends (per your requirement) */
+    opacity: 1;
+}
+
+.flare-carousel-nav:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.flare-carousel-nav:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+}
+
+.flare-carousel-nav.prev {
+    left: 10px;
+}
+
+.flare-carousel-nav.next {
+    right: 10px;
+}
+
+/* === Fullscreen overlay (same as before) === */
+.flare-carousel-overlay {
+    position: fixed;
+    inset: 0;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.86);
+    z-index: 9999;
+    box-sizing: border-box;
+}
+
+.flare-carousel-overlay.is-open {
+    display: flex;
+}
+
+.flare-carousel-fullimg {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+.flare-carousel-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+
+    width: 44px;
+    height: 44px;
+
+    border: none;
+    border-radius: 999px;
+
+    font-size: 28px;
+    line-height: 44px;
+    text-align: center;
+
+    color: #fff;
+    background: rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+}
+
+.flare-carousel-close:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.8);
+    outline-offset: 2px;
+}
+
+/* Lock scroll when fullscreen is open */
+.flare-carousel-lock {
+    overflow: hidden !important;
+}
